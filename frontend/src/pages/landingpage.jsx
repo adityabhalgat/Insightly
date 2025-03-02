@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { ReactTyped } from "react-typed";
 
 //import background from '../assets/landing_page_bg.svg?url'
@@ -13,19 +13,20 @@ function LandingPage() {
   return (
     
     <div
-      className="h-screen bg-cover bg-center"
-      style={{ backgroundImage: "url('/landing_page_bg.svg')"}}
+      className="bg-linear-to-tr from-indigo-200 to-green-200 h-screen bg-cover bg-center"
+      // style={{ backgroundImage: "url('/landing_page_bg.svg')"}}
     >
       {/* Content */}
 
-      <div className='text-white text-7xl text-center pt-70 font-mono font-bold'>
+      <div className='text-black text-7xl text-center pt-70 font-mono font-bol'>
       <h1>
-        Earn Money{" "}
+        {/* Earn Money{" "} */}
         <ReactTyped
-          strings={["for Reviews",
-            "Instantly",
+          strings={["Earn Money for Reviews",
+            "Earn Money Instantly",
+            "Get Paid for Your Honest Reviews"
           ]}
-          typeSpeed={140}
+          typeSpeed={80}
           loop
           backSpeed={35}
           cursorChar=""
