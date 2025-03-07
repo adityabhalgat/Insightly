@@ -1,62 +1,48 @@
-// import { useState } from 'react'
 import { ReactTyped } from "react-typed";
 import LandingNavbar from "../components/LandingNavbar";
 
-//import background from '../assets/landing_page_bg.svg?url'
-
 function LandingPage() {
-  //const [count, setCount] = useState(0)
-
-//   const bgStyle = {
-//     backgroundImage: `url(${background})`
-//   }
-
   return (
-    
-    <div
-      className="bg-linear-to-tr from-indigo-200 to-green-200 bg-cover bg-center h-full w-full"
-      // style={{ backgroundImage: "url('/landing_page_bg.svg')"}}
-    >
-
-    <LandingNavbar />
-      {/* Content */}
-
-      <div className='text-black text-5xl h-70 text-center pt-40 font-mono font-bol'>
-      <h1>
-        {/* Earn Money{" "} */}
-        <ReactTyped
-          strings={["Earn Money for Reviews",
-            "Earn Money Instantly",
-            "Get Paid for Your Honest Reviews",
-            "Actionable Reviews for Smarter Decisions",
-            "Transform Feedback into Higher Revenue"
-          ]}
-          typeSpeed={80}
-          loop
-          backSpeed={35}
-          cursorChar=""
-          showCursor={true}
-        />
-      </h1>
-    </div>
-
-    <div className="pt-20 flex justify-center font-extralight text-xl">
-    Earn $1-$1.5 for every verified review while helping brands improve their products.
-    </div>
-
-    <div className="pt-20 flex justify-center h-screen">
-      <div className="space-x-8 flex flex-row">
-        <button className="bg-white text-gray-800 w-75 h-16 px-10 py-3 rounded-full hover:bg-gray-200 transition text-2xl font-extralight">
-          Join us as a Company
-        </button>
-        <button className="bg-white text-gray-800 w-75 h-16 px-10 py-3 rounded-full hover:bg-gray-200 transition text-2xl font-extralight">
-          Sign up as a User
-        </button>
+    <div className="min-h-screen flex flex-col bg-gradient-to-tr from-indigo-500 to-green-400 text-white">
+      {/* Header */}
+      <header className="py-4 bg-black bg-opacity-50 text-center text-lg font-semibold">
+        Welcome to the Future of Reviews
+      </header>
+      
+      <LandingNavbar />
+      
+      {/* Hero Section */}
+      <div className="flex flex-col items-center justify-center text-center flex-grow px-6">
+        <h1 className="text-6xl font-extrabold leading-tight drop-shadow-lg">
+          <ReactTyped
+            strings={["Earn Money for Reviews", "Get Paid Instantly", "Honest Reviews, Instant Rewards", "Transform Feedback into Revenue"]}
+            typeSpeed={70}
+            backSpeed={40}
+            loop
+            showCursor={true}
+          />
+        </h1>
+        <p className="mt-6 text-lg font-light max-w-2xl">
+          Earn $1-$1.5 for every verified review while helping brands improve their products.
+        </p>
+        
+        {/* Call to Action Buttons */}
+        <div className="mt-10 flex space-x-6">
+          <button className="bg-white text-gray-900 px-8 py-3 rounded-full text-lg font-semibold shadow-md transition-transform transform hover:scale-105">
+            Join as a Company
+          </button>
+          <a href="/user" className="bg-gray-900 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-md transition-transform transform hover:scale-105">
+            Sign Up as a User
+          </a>
+        </div>
       </div>
+      
+      {/* Footer */}
+      <footer className="py-6 bg-black bg-opacity-50 text-center text-sm">
+        © 2025 Review Rewards. All rights reserved.
+      </footer>
     </div>
-
-    </div>
-  )
+  );
 }
 
-export default LandingPage
+export default LandingPage;
