@@ -6,9 +6,10 @@ export default function User() {
 
 
     return (
-        <div className="bg-linear-to-tr from-indigo-200 to-green-200 bg-center min-h-screen w-full"
->
+        <div className="bg-gradient-to-tr from-indigo-500 to-green-400 bg-fixed min-h-screen w-full">
             <Navbar />
+
+            
             
             <div>
                 <ProductList />
