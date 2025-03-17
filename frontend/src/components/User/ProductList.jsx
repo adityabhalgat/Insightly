@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function ProductList() {
   const products = [
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f70",
       name: "Samsung Galaxy S24 Ultra",
       category: "Smartphones",
       brand: "Samsung",
@@ -14,6 +15,7 @@ export default function ProductList() {
       company: "Samsung",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f71",
       name: "Sony WH-1000XM5",
       category: "Headphones",
       brand: "Sony",
@@ -23,6 +25,7 @@ export default function ProductList() {
       company: "Sony",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f72",
       name: "MacBook Pro 16 M3",
       category: "Laptops",
       brand: "Apple",
@@ -32,6 +35,7 @@ export default function ProductList() {
       company: "Apple",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f73",
       name: "Dell XPS 15",
       category: "Laptops",
       brand: "Dell",
@@ -41,6 +45,7 @@ export default function ProductList() {
       company: "Dell",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f74",
       name: "Google Pixel 8 Pro",
       category: "Smartphones",
       brand: "Google",
@@ -50,6 +55,7 @@ export default function ProductList() {
       company: "Google",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f75",
       name: "Bose QuietComfort Earbuds II",
       category: "Earbuds",
       brand: "Bose",
@@ -59,6 +65,7 @@ export default function ProductList() {
       company: "Bose",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f76",
       name: "LG C3 OLED TV",
       category: "Televisions",
       brand: "LG",
@@ -68,6 +75,7 @@ export default function ProductList() {
       company: "LG",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f77",
       name: "PlayStation 5",
       category: "Gaming Consoles",
       brand: "Sony",
@@ -77,6 +85,7 @@ export default function ProductList() {
       company: "Sony",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f78",
       name: "Xbox Series X",
       category: "Gaming Consoles",
       brand: "Microsoft",
@@ -86,6 +95,7 @@ export default function ProductList() {
       company: "Microsoft",
     },
     {
+      _id: "661c9a1a9f1b8a2c4d5e6f79",
       name: "Samsung Galaxy Watch 6",
       category: "Smartwatches",
       brand: "Samsung",
@@ -95,6 +105,7 @@ export default function ProductList() {
       company: "Samsung",
     },
   ];
+  
 
   const [selected, setSelected] = useState("All");
   const [query, setQuery] = useState("");
@@ -124,6 +135,7 @@ export default function ProductList() {
               category={prd.category}
               brand={prd.brand}
               description={prd.description}
+              productid={prd._id}
             />
           ))
         ) : (

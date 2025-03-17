@@ -4,10 +4,10 @@ import LandingNavbar from "../components/LandingNavbar";
 function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-tr from-indigo-500 to-green-400 text-white">
-      {/* Header */}
+      {/* Header
       <header className="py-4 bg-black bg-opacity-50 text-center text-lg font-semibold">
         Welcome to the Future of Reviews
-      </header>
+      </header> */}
       
       <LandingNavbar />
       

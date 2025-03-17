@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-export default function Product({ name, category, brand, description }) {
+export default function Product({ name, category, brand, description, productid }) {
     return (
       <div className="relative max-w-md mx-auto p-6 rounded-2xl shadow-xl bg-black text-white z-10">
         {/* Neon Glow Effect */}
@@ -13,7 +13,7 @@ export default function Product({ name, category, brand, description }) {
           <p className="text-xl font-semibold mt-5">{brand}</p>
           <p className="text-gray-300 text-lg mt-3">{description}</p>
           <br />
-          <a href="/writeareview">
+          <a href={`/writeareview/${productid}`}>
           <button className="mt-4 py-2 px-4 text-white font-semibold text-lg rounded-lg bg-gradient-to-r from-green-400 to-indigo-500 hover:from-indigo-500 hover:to-green-400 transition-all duration-300 shadow-lg shadow-indigo-500/50 hover:shadow-green-400/50">
             Write a Review
           </button>
