@@ -1,8 +1,8 @@
-import BackButton from "../components/User/BackButton";
-import Navbar from "../components/User/Navbar";
-import Review from "../components/User/Review";
+import Navbar from "../components/Admin/Navbar";
+import Review from "../components/Admin/Review";
 
-export default function MyReviews() {
+export default function ManageReviews() {
+
     const Reviews = [
         {
           id: 1,
@@ -47,32 +47,20 @@ export default function MyReviews() {
           recommend: false,
           suggestions: "Improve suction power and lower price.",
           submittedAt: "2024-05-22",
-          status: "rejected",
+          status: "marked for review",
         },
       ];
 
     // FETCH LIST OF REVIEWS WRITTEN BY USER AND SET IN STATE VARIABLE
-      
 
-    return (
+    return(
         <>
-            <Navbar />
-            <div className="mx-auto p-5">
-                <BackButton />
-            
-            </div>
-            
-            <>
-  {Reviews.length > 0 ? (
-    Reviews.map((review) => (
-      <Review key={review.id} review={review} />
-    ))
-  ) : (
-    <p>No reviews found.</p>
-  )}
-</>
-
+        <Navbar />
+        
+        {Reviews.filter((review) => review.status === "marked for review").map((review) => (
+  <Review key={review.id} review={review} />
+))}
 
         </>
-    );
+    )
 }

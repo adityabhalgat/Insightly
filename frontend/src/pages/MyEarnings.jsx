@@ -11,6 +11,8 @@ export default function MyEarnings() {
   const totalEarnings = reviewsSubmitted * earningsPerReview;
   const claimableBalance = totalEarnings - claimedEarnings;
 
+  // FETCH EARNINGS DATA OF USER AND PUT IN STATE VARIABLES
+
   return (
     <>
     <Navbar />

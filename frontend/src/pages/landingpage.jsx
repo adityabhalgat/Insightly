@@ -28,10 +28,12 @@ function LandingPage() {
         
         {/* Call to Action Buttons */}
         <div className="mt-10 flex space-x-6">
-          <button className="bg-white text-gray-900 px-8 py-3 rounded-full text-lg font-semibold shadow-md transition-transform transform hover:scale-105">
+          {/* <button className="bg-white text-gray-900 px-8 py-3 rounded-full text-lg font-semibold shadow-md transition-transform transform hover:scale-105">
+          </button> */}
+          <a href="/companysignup" className="bg-white text-gray-900 px-8 py-3 rounded-full text-lg font-semibold shadow-md transition-transform transform hover:scale-105">
             Join as a Company
-          </button>
-          <a href="/user" className="bg-gray-900 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-md transition-transform transform hover:scale-105">
+          </a>
+          <a href="/usersignup" className="bg-gray-900 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-md transition-transform transform hover:scale-105">
             Sign Up as a User
           </a>
         </div>

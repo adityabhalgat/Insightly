@@ -4,6 +4,8 @@ import Navbar from "../components/User/Navbar";
 import BackButton from "../components/User/BackButton";
 
 export default function WriteReview() {
+
+  // OBJECT ID
   const { id } = useParams();
 
   const [rating, setRating] = useState(0);
@@ -16,9 +18,24 @@ export default function WriteReview() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ rating, review, usageDuration, pros, cons, recommend });
+    //============================================
     // Here you can send the review to your backend or database
+    //============================================
   };
 
+  // FETCH PRODUCT DETAILS USING OBJECT ID AND STORE IN STATE VARIABLE
+  const product = {
+    name: "iPhone 16",
+    category: "Smartphones",
+    brand: "Apple",
+    description: "Latest smartphone from Apple",
+    avgRating: 4.7,
+    reviewCount: 890,
+    company: "Apple"
+  };
+  
+
+  
   return (
     <>
       <Navbar />
@@ -27,10 +44,10 @@ export default function WriteReview() {
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl font-bold text-center mb-6">Write a Review</h1>
           <div className="bg-white p-6 shadow-lg rounded-lg">
-            <h2 className="text-2xl font-semibold">Product Name</h2>
-            <p className="text-gray-600">Category: Electronics</p>
-            <p className="text-gray-600">Brand: XYZ</p>
-            <p className="text-gray-600">Model: ABC123</p>
+            <h2 className="text-2xl font-semibold">{product.name}</h2>
+            <p className="text-gray-600">Category: {product.category}</p>
+            <p className="text-gray-600">Brand: {product.brand}</p>
+            <p className="text-gray-600">Description: {product.description}</p>
           </div>
           <form onSubmit={handleSubmit} className="mt-6 space-y-6 bg-white p-6 shadow-lg rounded-lg">
             <div>
