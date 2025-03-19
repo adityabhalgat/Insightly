@@ -8,7 +8,7 @@ const ProductSchema = new mongoose.Schema(
     description: { type: String },
     avgRating: { type: Number, default: 0 },
     reviewCount: { type: Number, default: 0 },
-    company : {type : mongoose.Schema.Types.ObjectId, ref : 'Company' , required: true}
+    company : {type : mongoose.Schema.Types.ObjectId, ref : 'Company' , required: true},
   },
   { timestamps: true }
 );
