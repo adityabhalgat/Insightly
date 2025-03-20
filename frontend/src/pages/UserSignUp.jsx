@@ -1,148 +1,142 @@
 import { useState } from "react";
-// eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = "http://localhost:5001/api/auth"; // Update with your backend URL
+
 const UserSignUp = () => {
-  const [isLogged, setIsLogged] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [data, setData] = useState({ userName: "", password: "", email: "" });
-
-  const navigate = useNavigate();
+  const [data, setData] = useState({ username: "", email: "", password: "", role: "user" });
+  const [error, setError] = useState(null);
   
-  // Dummy list of signed-up users
-  const [userList, setUserList] = useState([
-    { userName: "johnDoe", password: "12345", email: "john@example.com" },
-    { userName: "janeDoe", password: "password", email: "jane@example.com" },
-  ]);
+  const navigate = useNavigate();
 
-  const handleClick = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
 
-    if (isSignUp) {
-      try {
-        // BACKEND API CALL HERE FOR SIGN-UP
-        // const response = await axios.put("", data);
-        // if (response && response.status >= 200 && response.status < 300) {
-        //   console.log("Sign Up successful!");
-        //   setIsSignUp(!isSignUp);
-        // } else {
-        //   console.log("Error!", response.data);
-        // }
-        // END
-
-        // Check if user already exists
-        const userExists = userList.some(user => user.email === data.email);
-        if (userExists) {
-          console.log("User already exists!");
+    try {
+      if (isSignUp) {
+        if (!data.username.trim()) {
+          setError("Username cannot be empty.");
           return;
         }
 
-        // Add user to the list
-        setUserList(prevUsers => [...prevUsers, data]);
-        console.log("User signed up successfully!", data);
-        setIsSignUp(!isSignUp);
-        // TO NAVIGATE TO USER PAGE
-        navigate("/user");
-      } catch (e) {
-        console.log("Error:", e);
-      }
-    } else {
-      try {
-        // BACKEND API CALL HERE FOR LOGIN
-        // const response = await axios.post("", data);
-        // if (response && response.status >= 200 && response.status < 300) {
-        //   console.log("Success Login!");
-        //   setIsLogged(!isLogged);
-        // } else {
-        //   console.log("Error!", response.data);
-        // }
-        // END
-        // ADD NAVIGATE TO USER PAGE
+        // Sign-up API request
+        const response = await axios.post(`${API_BASE_URL}/register`, {
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          role: data.role, // Role is required only during signup
+        });
 
-        // Check if user exists in the list
-        const user = userList.find(
-          user => user.email === data.email && user.password === data.password
-        );
-        if (user) {
-          console.log("Login successful!", user);
-          setIsLogged(!isLogged);
-
-          // TO NAVIGATE TO USER PAGE
-          navigate("/user");
-        } else {
-          console.log("Invalid email or password");
+        console.log("User signed up successfully!", response.data);
+        alert("Sign-up successful! Please log in.");
+        setIsSignUp(false); // Switch to login mode
+        setData({ username: "", email: "", password: "", role: "user" }); // Reset form
+      } else {
+        // Temporary Admin Check
+        if (data.email === "admin@gmail.com" && data.password === "admin") {
+          console.log("Admin login successful!");
+          navigate("/admin"); // Redirect to admin dashboard
+          return;
         }
-      } catch (e) {
-        console.log(e);
+
+        // Login API request for normal users
+        const response = await axios.post(`${API_BASE_URL}/login`, {
+          email: data.email,
+          password: data.password,
+        });
+
+        console.log("Login successful!", response.data);
+        
+        // Save authentication token (if applicable)
+        localStorage.setItem("token", response.data.token);
+
+        navigate("/user"); // Redirect to user dashboard
       }
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+      setError(error.response?.data?.message || "Something went wrong!");
     }
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-r from-blue-900 to-blue-400 p-4">
-      <form
-        className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-sm bg-white shadow-lg rounded-lg p-6 flex flex-col gap-6"
-        onSubmit={handleClick}
-      >
-        <div className="text-center font-bold text-2xl sm:text-3xl text-blue-800">
-          {isSignUp ? "Sign Up" : "Login"}
-        </div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-100 to-white">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          {isSignUp ? "Create an Account" : "Welcome Back"}
+        </h2>
 
-        <div className="flex flex-col gap-4">
+        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
 
-        { isSignUp && (
-            <div className="flex flex-col gap-2">
-            <label className="font-semibold">Username</label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {isSignUp && (
+            <div>
+              <label className="text-gray-700 font-medium">Username</label>
+              <input
+                type="text"
+                placeholder="Enter your username"
+                value={data.username}
+                className="w-full mt-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                onChange={(e) =>
+                  setData((prev) => ({ ...prev, username: e.target.value }))
+                }
+                required
+              />
+            </div>
+          )}
+
+          <div>
+            <label className="text-gray-700 font-medium">Email</label>
             <input
-              type="text"
-              placeholder="Enter Username"
-              value={data.userName}
-              className="shadow-md border border-blue-500 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              type="email"
+              placeholder="Enter your email"
+              value={data.email}
+              className="w-full mt-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
               onChange={(e) =>
-                setData((prev) => ({ ...prev, userName: e.target.value }))
+                setData((prev) => ({ ...prev, email: e.target.value }))
               }
+              required
             />
           </div>
 
-        )}
-          
-          
-            <div className="flex flex-col gap-2">
-              <label className="font-semibold">Email</label>
-              <input
-                type="email"
-                placeholder="Enter Email"
-                className="shadow-md border border-blue-500 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={data.email}
-                onChange={(e) =>
-                  setData((prev) => ({ ...prev, email: e.target.value }))
-                }
-              />
-            </div>
-          
-
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">Password</label>
+          <div>
+            <label className="text-gray-700 font-medium">Password</label>
             <input
               type="password"
-              placeholder="Enter Password"
+              placeholder="Enter your password"
               value={data.password}
-              className="shadow-md border border-blue-500 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full mt-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
               onChange={(e) =>
                 setData((prev) => ({ ...prev, password: e.target.value }))
               }
+              required
             />
           </div>
 
           <button
-            className="shadow-md w-full mt-4 bg-gradient-to-r from-blue-600 to-blue-400 h-12 rounded-xl text-white italic font-bold hover:opacity-90 transition-all"
+            className="w-full mt-4 bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-blue-700 transition-all"
             type="submit"
           >
             {isSignUp ? "Sign Up" : "Login"}
           </button>
-        </div>
-      </form>
+
+          <button
+            type="button"
+            className="text-sm text-blue-600 hover:underline text-center mt-2"
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError(null); // Clear error when switching modes
+              setData({ username: "", email: "", password: "", role: "user" }); // Reset form
+            }}
+          >
+            {isSignUp
+              ? "Already have an account? Login"
+              : "Don't have an account? Sign Up"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -14,13 +14,12 @@ export default function SearchBar({ setQuery, selected, setSelected }) {
   ];
 
   return (
-    <div className="flex gap-4 items-center rounded-lg p-3 w-full max-w-2xl">
-
-     {/* Category Dropdown */}
-     <select
+    <div className="flex gap-6 items-center rounded-lg p-4 w-full max-w-3xl">
+      {/* Category Dropdown */}
+      <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
-        className="bg-white border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="bg-white border border-gray-300 rounded-full px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         {categories.map((category) => (
           <option key={category} value={category}>
@@ -34,10 +33,8 @@ export default function SearchBar({ setQuery, selected, setSelected }) {
         type="text"
         placeholder="Search products..."
         onChange={(e) => setQuery(e.target.value)}
-        className="flex-1 bg-white border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex-1 bg-white border border-gray-300 rounded-full px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-
-     
     </div>
   );
 }

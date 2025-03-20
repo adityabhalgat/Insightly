@@ -1,26 +1,34 @@
-/* eslint-disable react/prop-types */
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Product({ name, category, brand, description, productid }) {
-    return (
-      <div className="relative max-w-md mx-auto p-6 rounded-2xl shadow-xl bg-black text-white z-10">
-        {/* Neon Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-indigo-500 opacity-30 blur-lg rounded-2xl -z-10"></div>
-  
-        {/* Card Content */}
-        <div className="relative">
-          <h2 className="text-2xl font-bold">{name}</h2>
-          <p className="text-sm opacity-80 mt-1">{category}</p>
-          <p className="text-xl font-semibold mt-5">{brand}</p>
-          <p className="text-gray-300 text-lg mt-3">{description}</p>
-          <br />
-          <a href={`/writeareview/${productid}`}>
-          <button className="mt-4 py-2 px-4 text-white font-semibold text-lg rounded-lg bg-gradient-to-r from-green-400 to-indigo-500 hover:from-indigo-500 hover:to-green-400 transition-all duration-300 shadow-lg shadow-indigo-500/50 hover:shadow-green-400/50">
-            Write a Review
-          </button>
-          </a>
+export default function Product({ id, name, category, brand, description, price, imageUrl }) {
+  const navigate = useNavigate();
 
-        </div>
+  const handleReviewClick = () => {
+    navigate(`/writeareview/${id}`);
+  };
+
+  return (
+    <div className="bg-white rounded-xl p-5 shadow-md hover:shadow-xl transition duration-300 flex flex-col">
+      {/* Product Image */}
+      <div className="w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg overflow-hidden">
+        <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
       </div>
-    );
-  }
-  
+      {/* Product Info */}
+      <div className="mt-4 flex flex-col flex-grow">
+        <h2 className="text-lg font-bold text-gray-800">{name}</h2>
+        <p className="text-sm text-gray-600 mt-1 capitalize">
+          {category} {brand && `| ${brand}`}
+        </p>
+        <p className="text-lg font-semibold text-blue-600 mt-2">₹{price}</p>
+        <p className="text-gray-600 text-sm mt-3 line-clamp-2">{description}</p>
+        <button
+          onClick={handleReviewClick}
+          className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+        >
+          Give Review
+        </button>
+      </div>
+    </div>
+  );
+}

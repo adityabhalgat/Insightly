@@ -3,6 +3,7 @@ const getReview = require('./getReview');
 const getReviews = require('./getReviews');
 const updateReview = require('./updateReview');
 const deleteReview = require('./deleteReview');
+const getUserReviews = require('./getReviewbyUser');
 
 module.exports = {
   createReview,
@@ -10,4 +11,5 @@ module.exports = {
   getReviews,
   updateReview,
   deleteReview,
+  getUserReviews,
 };

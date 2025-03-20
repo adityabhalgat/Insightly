@@ -1,78 +1,69 @@
+import { useState } from "react";
 import BackButton from "../components/User/BackButton";
 import Navbar from "../components/User/Navbar";
 import Review from "../components/User/Review";
 
 export default function MyReviews() {
-    const Reviews = [
-        {
-          id: 1,
-          title: "Dell XPS 15",
-          category: "Electronics",
-          brand: "Dell",
-          description: "This laptop is fast and efficient, perfect for coding and multitasking.",
-          rating: 5,
-          timeUsed: "6 months",
-          pros: "Fast performance, great battery life, lightweight",
-          cons: "Expensive, can get warm under heavy load",
-          recommend: true,
-          suggestions: "Better cooling system would be great.",
-          submittedAt: "2024-06-15",
-          status: "accepted",
-        },
-        {
-          id: 2,
-          title: "Samsung Galaxy S23",
-          category: "Smartphones",
-          brand: "Samsung",
-          description: "A decent smartphone for its price range.",
-          rating: 4,
-          timeUsed: "1 year",
-          pros: "Affordable, good battery life, decent camera",
-          cons: "Slower performance over time",
-          recommend: true,
-          suggestions: "More RAM would improve long-term usability.",
-          submittedAt: "2024-07-02",
-          status: "marked for review",
-        },
-        {
-          id: 3,
-          title: "Dyson V11 Vacuum Cleaner",
-          category: "Appliances",
-          brand: "Dyson",
-          description: "Overpriced vacuum cleaner with mediocre performance.",
-          rating: 2,
-          timeUsed: "3 months",
-          pros: "Stylish design, lightweight",
-          cons: "Weak suction, overpriced",
-          recommend: false,
-          suggestions: "Improve suction power and lower price.",
-          submittedAt: "2024-05-22",
-          status: "rejected",
-        },
-      ];
+  const [reviews] = useState([
+    {
+      _id: "1",
+      title: "Excellent Laptop!",
+      category: "Electronics",
+      brand: "Brand X",
+      rating: 5,
+      status: "accepted",
+      description: "Great performance and battery life!",
+      timeUsed: "6 months",
+      pros: "Fast, lightweight, great display",
+      cons: "A bit expensive",
+      recommend: true,
+      suggestions: "Improve the keyboard feel",
+      submittedAt: "2024-03-01T12:00:00Z",
+    },
+    {
+      _id: "2",
+      title: "Decent Smartphone",
+      category: "Mobile Phones",
+      brand: "Brand Y",
+      rating: 3,
+      status: "marked for review",
+      description: "Decent phone but the camera is underwhelming.",
+      timeUsed: "1 year",
+      pros: "Good battery, smooth UI",
+      cons: "Poor camera quality",
+      recommend: false,
+      suggestions: "Upgrade the camera module",
+      submittedAt: "2024-02-15T10:30:00Z",
+    },
+    {
+      _id: "3",
+      title: "Amazing Headphones",
+      category: "Audio",
+      brand: "Brand Z",
+      rating: 5,
+      status: "accepted",
+      description: "Amazing sound quality and comfort!",
+      timeUsed: "2 years",
+      pros: "Crystal clear sound, long battery life",
+      cons: "None so far",
+      recommend: true,
+      suggestions: "Add more color options",
+      submittedAt: "2024-01-20T08:45:00Z",
+    },
+  ]);
 
-    // FETCH LIST OF REVIEWS WRITTEN BY USER AND SET IN STATE VARIABLE
-      
+  return (
+    <div className="bg-gradient-to-b from-indigo-100 via-blue-100 to-indigo-200 min-h-screen">
+      <Navbar />
+      <div className="mx-auto p-5">
+        <BackButton />
+      </div>
 
-    return (
-        <>
-            <Navbar />
-            <div className="mx-auto p-5">
-                <BackButton />
-            
-            </div>
-            
-            <>
-  {Reviews.length > 0 ? (
-    Reviews.map((review) => (
-      <Review key={review.id} review={review} />
-    ))
-  ) : (
-    <p>No reviews found.</p>
-  )}
-</>
-
-
-        </>
-    );
+      {reviews.length > 0 ? (
+        reviews.map((review) => <Review key={review._id} review={review} />)
+      ) : (
+        <p>No reviews found.</p>
+      )}
+    </div>
+  );
 }

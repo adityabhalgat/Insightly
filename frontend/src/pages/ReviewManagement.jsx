@@ -75,9 +75,7 @@ const initialReviews = [
 
 export default function ReviewManagement() {
   const [reviews, setReviews] = useState(initialReviews);
-
-  // Admin should be able to change cost per review
-  const [costPerReview, setCostPerReview] = useState(1.5); // Default cost per review
+  const [costPerReview, setCostPerReview] = useState(1.5);
 
   const purchasedReviews = reviews.filter((review) => review.purchased);
   const unpurchasedReviews = reviews.filter((review) => !review.purchased);
@@ -88,44 +86,65 @@ export default function ReviewManagement() {
   const totalPurchasedCost = purchasedCount * costPerReview;
   const totalUnpurchasedCost = unpurchasedCount * costPerReview;
 
+  // Function to mark all unpurchased reviews as purchased
+  const buyReviews = () => {
+    const updatedReviews = reviews.map((review) =>
+      review.purchased ? review : { ...review, purchased: true }
+    );
+    setReviews(updatedReviews);
+  };
+
+  // Function to download purchased reviews as an Excel file
   const downloadExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(purchasedReviews);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Reviews");
-    XLSX.writeFile(workbook, "reviews.xlsx");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Purchased Reviews");
+    XLSX.writeFile(workbook, "purchased_reviews.xlsx");
   };
 
   return (
     <>
       <Navbar />
-      <div className="pt-20">
-      <div className="p-5 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Review Management</h1>
-        <p className="mb-2">Purchased Reviews: {purchasedCount}</p>
-        <p className="mb-2">Cost per Review: ${costPerReview.toFixed(2)}</p>
-        <p className="mb-4">Total Cost of Purchased Reviews: ${totalPurchasedCost.toFixed(2)}</p>
-        <button
-          onClick={downloadExcel}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-        >
-          Download Reviews
-        </button>
-      </div>
-      </div>
+      <div className="pt-16 min-h-screen flex flex-col items-center bg-gradient-to-r from-indigo-100 to-indigo-300">
+        {/* Purchased Reviews Section */}
+        <div className="p-8 w-full max-w-3xl bg-white rounded-lg shadow-xl mb-6">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Review Management</h1>
+          <div className="text-gray-700 mb-3">
+            <strong>Purchased Reviews:</strong> {purchasedCount}
+          </div>
+          <div className="text-gray-700 mb-3">
+            <strong>Cost per Review:</strong> ${costPerReview.toFixed(2)}
+          </div>
+          <div className="text-gray-700 mb-6">
+            <strong>Total Cost of Purchased Reviews:</strong> ${totalPurchasedCost.toFixed(2)}
+          </div>
+          <button
+            onClick={downloadExcel}
+            className="w-full px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out"
+          >
+            📥 Download Purchased Reviews
+          </button>
+        </div>
 
-      <div className="pt-20">
-      <div className="p-5 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Purchase more Reviews</h1>
-        <p className="mb-2">Un-Purchased Reviews: {unpurchasedCount}</p>
-        <p className="mb-2">Cost per Review: ${costPerReview.toFixed(2)}</p>
-        <p className="mb-4">Total Cost of Un-Purchased Reviews: ${totalUnpurchasedCost.toFixed(2)}</p>
-        <button
-        //   onClick={ // RAZORPAY CALLED HERE}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-        >
-          Buy Reviews
-        </button>
-      </div>
+        {/* Unpurchased Reviews Section */}
+        <div className="p-8 w-full max-w-3xl bg-white rounded-lg shadow-xl">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Purchase More Reviews</h1>
+          <div className="text-gray-700 mb-3">
+            <strong>Unpurchased Reviews:</strong> {unpurchasedCount}
+          </div>
+          <div className="text-gray-700 mb-3">
+            <strong>Cost per Review:</strong> ${costPerReview.toFixed(2)}
+          </div>
+          <div className="text-gray-700 mb-6">
+            <strong>Total Cost of Unpurchased Reviews:</strong> ${totalUnpurchasedCost.toFixed(2)}
+          </div>
+          <button
+            onClick={buyReviews}
+            className="w-full px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out"
+          >
+            💳 Buy Reviews
+          </button>
+        </div>
       </div>
     </>
   );

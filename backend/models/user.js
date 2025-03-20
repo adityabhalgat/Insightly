@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
   reviews:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],  // Track reviews given by the user
   isVerified: { type: Boolean, default: false },
   totalReviewsWritten: { type: Number, default: 0 },
+  totalEarnings: { type: Number, default: 0 },
+  claimedEarnings: { type: Number, default: 0 },
+  claimableEarnings: { type: Number, default: 0 },
 }, { timestamps: true });
+
 
 module.exports = mongoose.model('User', UserSchema);

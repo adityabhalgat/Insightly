@@ -1,69 +1,82 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Product from "./Product";
 
 export default function ProductList() {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "UltraBoost Running Shoes",
-      category: "Shoes",
-      brand: "Adidas",
-      description: "High-performance running shoes with superior comfort and energy return.",
-      avgRating: 4.7,
-      reviewCount: 1200,
-    },
-    {
-      id: 2,
-      name: "Superstar Classic Sneakers",
-      category: "Shoes",
-      brand: "Adidas",
-      description: "Timeless design with a leather upper and rubber shell toe.",
-      avgRating: 4.5,
-      reviewCount: 850,
-    },
-    {
-      id: 3,
-      name: "NMD R1 Lifestyle Sneakers",
-      category: "Shoes",
-      brand: "Adidas",
-      description: "Urban-style sneakers with responsive cushioning and sock-like fit.",
-      avgRating: 4.6,
-      reviewCount: 950,
-    },
-    {
-      id: 4,
-      name: "Stan Smith Originals",
-      category: "Shoes",
-      brand: "Adidas",
-      description: "Minimalist tennis-inspired sneakers with a clean and classic look.",
-      avgRating: 4.8,
-      reviewCount: 1300,
-    },
-    {
-      id: 5,
-      name: "ZX 750 Retro Sneakers",
-      category: "Shoes",
-      brand: "Adidas",
-      description: "A mix of modern comfort and classic design for everyday wear.",
-      avgRating: 4.4,
-      reviewCount: 700,
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleDelete = (id) => {
-    setProducts(products.filter(product => product.id !== id));
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        console.log("🔍 Retrieved Token:", token);
 
-    //==========================================
-    // API CALL REMOVE PRODUCT FROM TABLE HERE
-    //==========================================
+        if (!token) {
+          throw new Error("No authentication token found. Please log in.");
+        }
 
+        const response = await axios.get("http://localhost:5001/api/products/getbycompany", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("📌 Products fetched:", response.data); // Debugging
+        setProducts(response.data);
+      } catch (err) {
+        console.error("❌ Fetch Products Error:", err.message);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleDelete = async (id) => {
+    console.log("🛠️ handleDelete received ID:", id); // Debugging
+
+    if (!id) {
+      alert("❌ Error: Product ID is undefined!");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.error("❌ No authentication token found.");
+        alert("Please log in again.");
+        return;
+      }
+
+      await axios.delete(`http://localhost:5001/api/products/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("✅ Product deleted successfully");
+      setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
+    } catch (error) {
+      console.error("❌ Error deleting product:", error.response?.data || error.message);
+      alert("Failed to delete product");
+    }
   };
+
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-      {products.map((prd) => (
-        <Product key={prd.id} product={prd} onDelete={handleDelete} />
-      ))}
+      {products.length > 0 ? (
+        products.map((prd) => (
+          <Product key={prd._id} product={prd} onDelete={() => handleDelete(prd._id)} />
+        ))
+      ) : (
+        <p>No products found</p>
+      )}
     </div>
   );
 }

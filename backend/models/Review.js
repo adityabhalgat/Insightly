@@ -4,30 +4,46 @@ const ReviewSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-    content: { type: String, required: true },
+
+    // Rating (1-5 stars)
     rating: { type: Number, min: 1, max: 5, required: true },
-    // Overall status: pending, approved, rejected, sold (when purchased)
+
+    // User input fields
+    usageDuration: { type: String, required: true },
+    pros: { type: String, required: true },
+    cons: { type: String, required: true },
+    recommend: { type: Boolean, required: true },
+    review: { type: String, required: true },
+    productSequenceNumber: { type: String, required: true },
+    suggestions: { type: String , required: false },
+
+    // Review status tracking
     status: { 
       type: String, 
       enum: ['pending', 'approved', 'rejected', 'sold'], 
       default: 'pending' 
     },
-    // ML classification: accepted (auto-approve), rejected, or mark_for_review (needs admin intervention)
+
+    // AI moderation for review validation
     mlStatus: {
       type: String,
       enum: ['accepted', 'rejected', 'mark_for_review'],
       default: 'accepted'
     },
-    // Only applicable if mlStatus is "mark_for_review"
+
+    // Admin approval status (if marked for review)
     adminApprovalStatus: {
       type: String,
       enum: ['pending', 'approved', 'rejected'],
       default: 'pending'
     },
-    // Price at which the review is offered (business logic can determine this)
-    reviewPrice: { type: Number, default: 0 },
-    // (Optional) An array of purchase records can be referenced for quick lookup
+
+    // Reward system for incentivizing reviews
+    reviewPrice: { type: Number, default: 0 }, 
+
+    // Linking purchases (if applicable)
     purchases: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ReviewPurchase' }],
+
   },
   { timestamps: true }
 );

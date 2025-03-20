@@ -4,10 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pi
 export default function CompanyDashboard() {
   // Dummy Data based on Product Schema
 
-// =====================================================================================================
-// MAKE API CALL TO GET ALL PRODUCTS OF THIS COMPANY
-// =====================================================================================================
-
   const products = [
     {
       name: "Product A with a very long name that should wrap",
@@ -23,7 +19,7 @@ export default function CompanyDashboard() {
       brand: "Brand Y",
       description: "Durable and energy-efficient appliance.",
       avgRating: 4.0,
-      reviewCount: 75,
+      reviewCount: 1000,
     },
     {
       name: "Product C",
@@ -51,11 +47,6 @@ export default function CompanyDashboard() {
     },
   ];
 
-// =====================================================================================================
-// MAKE CHANGES HERE AFTER ADDING API CALL REPLACE PRODUCTS LIST WITH THE LIST RECIEVED FROM BACKEND
-// GET REVIEW VALUES FROM API TOO
-// =====================================================================================================
-
   const analyticsData = {
     totalProducts: products.length,
     totalReviews: products.reduce((sum, product) => sum + product.reviewCount, 0),
@@ -72,24 +63,23 @@ export default function CompanyDashboard() {
 
   const shortenName = (name) => (name.length > 15 ? `${name.substring(0, 12)}...` : name);
 
-
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 px-8 md:px-16 py-16">
+      <div className="min-h-screen bg-gradient-to-b from-indigo-100 via-blue-100 to-indigo-200 px-8 md:px-16 py-16">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 mb-12 text-center">📊 Analytics Dashboard</h1>
 
           {/* Metrics Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {[ 
               { title: "Total Products", value: analyticsData.totalProducts },
               { title: "Total Reviews", value: analyticsData.totalReviews },
               { title: "Purchased Reviews", value: analyticsData.purchasedReviews },
               { title: "Available Reviews", value: analyticsData.availableReviews },
             ].map((item, index) => (
-              <div key={index} className="bg-white p-6 shadow-lg rounded-xl text-center border border-gray-300">
-                <h3 className="text-lg font-medium text-gray-600">{item.title}</h3>
+              <div key={index} className="bg-white p-8 shadow-xl rounded-xl text-center border border-gray-300 hover:scale-105 transform transition-all duration-300 ease-in-out">
+                <h3 className="text-lg font-medium text-gray-700">{item.title}</h3>
                 <p className="text-3xl font-extrabold text-blue-600">{item.value}</p>
               </div>
             ))}
@@ -98,11 +88,11 @@ export default function CompanyDashboard() {
           {/* Charts Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Bar Chart */}
-            <div className="bg-white p-8 shadow-lg rounded-xl border border-gray-300">
+            <div className="bg-white p-8 shadow-xl rounded-xl border border-gray-300">
               <h2 className="text-2xl font-semibold mb-6 text-gray-700">📈 Review Submission Trend</h2>
               <ResponsiveContainer width="100%" height={350}>
                 <BarChart data={products}>
-                  <XAxis dataKey="name" tick={{ fontSize: 14 }} tickFormatter={shortenName}/>
+                  <XAxis dataKey="name" tick={{ fontSize: 14 }} tickFormatter={shortenName} />
                   <YAxis tick={{ fontSize: 14 }} />
                   <Tooltip />
                   <Bar dataKey="reviewCount" fill="#3b82f6" barSize={50} />
@@ -111,7 +101,7 @@ export default function CompanyDashboard() {
             </div>
 
             {/* Pie Chart */}
-            <div className="bg-white p-8 shadow-lg rounded-xl border border-gray-300">
+            <div className="bg-white p-8 shadow-xl rounded-xl border border-gray-300">
               <h2 className="text-2xl font-semibold mb-6 text-gray-700">📊 Purchased vs Available Reviews</h2>
               <ResponsiveContainer width="100%" height={350}>
                 <PieChart>
