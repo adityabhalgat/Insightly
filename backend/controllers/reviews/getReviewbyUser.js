@@ -1,39 +1,53 @@
 const Review = require("../../models/Review");
-const jwt = require("jsonwebtoken");
+const User = require("../../models/user");
+const mongoose = require("mongoose");
 
 const getUserReviews = async (req, res) => {
   try {
-    // Extract token from headers
-    const authHeader = req.header("Authorization");
-    console.log("Authorization Header:", authHeader);
-    
-    const token = authHeader?.split(" ")[1];
-    if (!token) {
-      console.log("No token provided");
-      return res.status(401).json({ message: "Unauthorized" });
+    const { id } = req.params; // Get user ID from route parameter
+
+    // Validate if the provided ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid user ID format"
+      });
     }
 
-    // Decode JWT to get user ID
-    let decoded;
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log("Decoded JWT:", decoded);
-    } catch (jwtError) {
-      console.log("JWT Verification Error:", jwtError);
-      return res.status(401).json({ message: "Invalid token" });
+    // Find user first to verify they exist
+    const user = await User.findById(id)
+      .populate({
+        path: 'reviews',
+        populate: [
+          { path: 'userId', select: 'username email' },
+          { path: 'productId', select: 'name description' }
+        ],
+        options: { sort: { createdAt: -1 } }
+      })
+      .exec();
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found"
+      });
     }
 
-    const userId = decoded.id;
-    console.log("Extracted User ID:", userId);
+    console.log(`Found ${user.reviews.length} reviews for user ${id}`);
 
-    // Fetch reviews written by the user
-    const reviews = await Review.find({ userId: userId });
-    console.log("Fetched Reviews:", reviews);
+    return res.status(200).json({
+      success: true,
+      count: user.reviews.length,
+      reviews: user.reviews
+    });
 
-    res.status(200).json({ success: true, reviews });
   } catch (error) {
-    console.error("Error fetching user reviews:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error('Error in getUserReviews:', error);
+    return res.status(500).json({
+      success: false,
+      error: "Failed to fetch reviews",
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 

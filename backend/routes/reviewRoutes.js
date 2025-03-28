@@ -9,7 +9,7 @@ router.get('/:id', reviewController.getReview);
 router.get('/', reviewController.getReviews);
 router.put('/:id', authenticate, authorize(['user']), reviewController.updateReview);
 router.delete('/:id', authenticate, authorize(['user']), reviewController.deleteReview);
-router.get('/user', reviewController.getUserReviews);
+router.get('/user/:id', reviewController.getUserReviews);
 //router.get('/company', reviewController.getCompanyReviews);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const Product = require('../../models/product');
+const Product = require('../../models/Product');
 const jwt = require('jsonwebtoken');
 
 const getProductsByCompany = async (req, res) => {

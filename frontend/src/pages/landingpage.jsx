@@ -2,8 +2,8 @@ import { ReactTyped } from "react-typed";
 import LandingNavbar from "../components/LandingNavbar";
 import { FaCheckCircle, FaUsers, FaDollarSign, FaStar } from "react-icons/fa";
 import { motion } from "framer-motion"; // For animations
-import testimonialImage1 from "../../public/pic1.jpg"; 
-import testimonialImage2 from "../../public/pic2.jpg";
+import testimonialImage1 from "../../public/pic2.jpg"; 
+import testimonialImage2 from "../../public/pic1.jpg";
 
 function LandingPage() {
   return (
@@ -168,7 +168,7 @@ function LandingPage() {
             href="/usersignup"
             className="bg-white text-purple-600 px-10 py-4 rounded-lg text-lg font-semibold shadow-md hover:bg-gray-100 transition-colors"
           >
-            Get Started
+            Get Startedß
           </a>
         </div>
       </section>

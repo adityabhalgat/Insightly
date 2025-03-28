@@ -22,7 +22,7 @@ export default function ManageReviews() {
     },
     {
       "id": 2,
-      "title": "Apple iPhone 15 Pro Max",
+      "titleß": "Apple iPhone 15 Pro Max",
       "category": "Smartphones",
       "brand": "Apple",
       "description": "The iPhone 15 Pro Max offers incredible performance and great camera capabilities. However, it comes with a high price tag.",
