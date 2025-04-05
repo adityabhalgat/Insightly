@@ -17,6 +17,7 @@ import ReviewManagement from './pages/ReviewManagement'
 import Admin from './pages/Admin'
 import ManageReviews from './pages/ManageReviews'
 import AboutUs from './pages/AboutUs'
+import ClaimEarnings from './pages/claimEarnings'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -33,7 +34,9 @@ function App() {
         <Route path="/myearnings" element={<MyEarnings />} />
         <Route path="/myreviews" element={<MyReviews />} />
         <Route path="/about" element={<AboutUs />} />
-
+        <Route path="/claim-earnings" element={<ClaimEarnings />} />
+        
+    
         <Route path="/companydashboard" element={<CompanyDashboard />} />
         <Route path="/productmanagement" element={<ProductManagement />} />
         <Route path="/addproduct" element={<AddProductPage />} />

@@ -20,21 +20,21 @@ const ReviewSchema = new mongoose.Schema(
     // Review status tracking
     status: { 
       type: String, 
-      enum: ['pending', 'approved', 'rejected', 'sold'], 
+      enum: ['pending', 'accepted', 'rejected', 'marked for review'], 
       default: 'pending' 
     },
 
     // AI moderation for review validation
     mlStatus: {
       type: String,
-      enum: ['accepted', 'rejected', 'mark_for_review'],
-      default: 'accepted'
+      enum: ['pending', 'accepted', 'rejected', 'mark_for_review'],
+      default: 'pending'
     },
 
     // Admin approval status (if marked for review)
     adminApprovalStatus: {
       type: String,
-      enum: ['pending', 'approved', 'rejected'],
+      enum: ['pending', 'accepted', 'rejected'],
       default: 'pending'
     },
 

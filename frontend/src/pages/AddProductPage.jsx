@@ -11,7 +11,7 @@ export default function AddProductPage() {
         description: ""
     });
 
-    const [message, setMessage] = useState({ text: "", type: "" }); // State for success/error messages
+    const [message, setMessage] = useState({ text: "", type: "" }); 
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -25,7 +25,7 @@ export default function AddProductPage() {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token");
-            console.log("Sending Token:", token); // ✅ Log the token before sending
+            console.log("Sending Token:", token); 
     
             if (!token) {
                 setMessage({ text: "No token found. Please log in again.", type: "error" });
@@ -40,7 +40,7 @@ export default function AddProductPage() {
                     description: formData.description,
                 },
                 {
-                    headers: { Authorization: `Bearer ${token}` }, // ✅ Ensure token is sent
+                    headers: { Authorization: `Bearer ${token}` }, 
                 }
             );
     

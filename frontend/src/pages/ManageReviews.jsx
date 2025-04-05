@@ -1,104 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Admin/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 export default function ManageReviews() {
-  const [reviews, setReviews] = useState([
-    {
-      "id": 1,
-      "title": "Sony WH-1000XM5 Headphones",
-      "category": "Electronics",
-      "brand": "Sony",
-      "description": "These are one of the best noise-canceling headphones available on the market. Comfortable and great for long listening sessions.",
-      "rating": 5,
-      "timeUsed": "3 months",
-      "pros": "Excellent noise cancellation, superb sound quality, very comfortable",
-      "cons": "Expensive, the sound can be bass-heavy for some users",
-      "recommend": true,
-      "suggestions": "A more balanced sound profile would be ideal.",
-      "submittedAt": "2024-02-01",
-      "status": "marked for review"
-    },
-    {
-      "id": 2,
-      "titleß": "Apple iPhone 15 Pro Max",
-      "category": "Smartphones",
-      "brand": "Apple",
-      "description": "The iPhone 15 Pro Max offers incredible performance and great camera capabilities. However, it comes with a high price tag.",
-      "rating": 4,
-      "timeUsed": "6 months",
-      "pros": "Powerful performance, amazing camera, beautiful display",
-      "cons": "Extremely expensive, no major design changes from previous models",
-      "recommend": true,
-      "suggestions": "A lower price would make it a better value.",
-      "submittedAt": "2024-03-10",
-      "status": "marked for review"
-    },
-    {
-      "id": 3,
-      "title": "Google Pixel 8",
-      "category": "Smartphones",
-      "brand": "Google",
-      "description": "A solid all-around device with excellent camera performance but lacks some of the features found in flagship competitors.",
-      "rating": 3,
-      "timeUsed": "4 months",
-      "pros": "Stock Android experience, amazing camera for photos, good performance",
-      "cons": "Lacks high-end hardware features, battery life could be better",
-      "recommend": false,
-      "suggestions": "Improve battery life and add more premium features.",
-      "submittedAt": "2024-03-15",
-      "status": "marked for review"
-    },
-    {
-      "id": 4,
-      "title": "Samsung QLED TV 55\"",
-      "category": "Electronics",
-      "brand": "Samsung",
-      "description": "Great picture quality and smart features, but the audio is not up to the mark.",
-      "rating": 4,
-      "timeUsed": "1 year",
-      "pros": "Excellent picture quality, smooth interface",
-      "cons": "Sound quality could be better, expensive",
-      "recommend": true,
-      "suggestions": "Better sound quality or built-in sound system would improve the experience.",
-      "submittedAt": "2024-01-20",
-      "status": "marked for review"
-    },
-    {
-      "id": 5,
-      "title": "Bose SoundLink Revolve+ Bluetooth Speaker",
-      "category": "Electronics",
-      "brand": "Bose",
-      "description": "The speaker has clear sound and excellent bass for its size, but the battery life could be better.",
-      "rating": 4,
-      "timeUsed": "5 months",
-      "pros": "Clear sound, deep bass, portable",
-      "cons": "Battery life not as long as expected",
-      "recommend": true,
-      "suggestions": "Improved battery life would make it perfect.",
-      "submittedAt": "2024-02-10",
-      "status": "marked for review"
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    fetchMarkedReviews();
+  }, []);
+
+  const fetchMarkedReviews = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/api/reviews/marked-for-review');
+      setReviews(response.data);
+    } catch (error) {
+      console.error('Error fetching marked reviews:', error);
+      toast.error('Failed to load reviews');
     }
-  ]
-  );
+  };
 
-  const handleReviewAction = (reviewId, action) => {
-    setReviews((prevReviews) =>
-      prevReviews.map((review) =>
-        review.id === reviewId
-          ? {
-              ...review,
-              status: action === "accept" ? "accepted" : "rejected",
-            }
-          : review
-      )
-    );
+  const handleReviewAction = async (reviewId, action) => {
+    try {
+      const token = localStorage.getItem('token'); // Get token from localStorage
+      await axios.put(
+        `http://localhost:5001/api/reviews/${reviewId}`,
+        {
+          status: action === "accept" ? "accepted" : "rejected"
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
 
-    if (action === "accept") {
-      toast.success("Review accepted!");
-    } else {
-      toast.error("Review rejected!");
+      setReviews((prevReviews) =>
+        prevReviews.filter((review) => review.id !== reviewId)
+      );
+
+      toast.success(action === "accept" ? "Review accepted!" : "Review rejected!");
+    } catch (error) {
+      console.error('Error updating review:', error);
+      toast.error('Failed to update review status');
     }
   };
 

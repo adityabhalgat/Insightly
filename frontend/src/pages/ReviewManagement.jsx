@@ -1,6 +1,8 @@
 import { useState } from "react";
 import * as XLSX from "xlsx";
 import Navbar from "../components/Company/Navbar";
+import axios from "axios";
+
 
 const initialReviews = [
   {
@@ -86,21 +88,105 @@ export default function ReviewManagement() {
   const totalPurchasedCost = purchasedCount * costPerReview;
   const totalUnpurchasedCost = unpurchasedCount * costPerReview;
 
-  // Function to mark all unpurchased reviews as purchased
-  const buyReviews = () => {
-    const updatedReviews = reviews.map((review) =>
-      review.purchased ? review : { ...review, purchased: true }
-    );
-    setReviews(updatedReviews);
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
   };
-
-  // Function to download purchased reviews as an Excel file
+  // Function to mark all unpurchased reviews as purchased
+  const buyReviews = async () => {
+    const isLoaded = await loadRazorpayScript();
+    if (!isLoaded) {
+      alert("Failed to load Razorpay. Please check your internet connection and try again.");
+      return;
+    }
+  
+    const totalAmount = unpurchasedCount * costPerReview * 100; // Convert to paise
+  
+    try {
+      const { data } = await axios.post("http://localhost:5001/api/payment/create-order", {
+        amount: totalAmount,
+        currency: "INR",
+      });
+  
+      const options = {
+        key: process.env.RAZORPAY_KEY_ID,
+        amount: totalAmount,
+        currency: "INR",
+        name: "Product Review Purchase",
+        description: `Purchasing ${unpurchasedCount} reviews`,
+        order_id: data.id,
+        handler: async function (response) {
+          if (response.razorpay_payment_id && response.razorpay_signature) {
+            const verifyRes = await axios.post("http://localhost:5001/api/payment/verify-payment", {
+              razorpay_order_id: data.id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+  
+            if (verifyRes.data.success) {
+              const updatedReviews = reviews.map((review) =>
+                review.purchased ? review : { ...review, purchased: true }
+              );
+              setReviews(updatedReviews);
+              alert("Payment successful! Reviews have been purchased.");
+            } else {
+              alert("Payment verification failed.");
+            }
+          } else {
+            alert("Payment failed. Please try again.");
+          }
+        },
+        prefill: {
+          name: "Your Name",
+          email: "your@email.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+  
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Error processing payment:", error);
+      alert("Payment processing failed. Try again.");
+    }
+  };
+  
   const downloadExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(purchasedReviews);
+    const formattedData = purchasedReviews.map((review) => ({
+      "Product Name": review.title,
+      "Category": review.category,
+      "Brand": review.brand,
+      "Description": review.description,
+      "Rating": review.rating,
+      "Time Used": review.timeUsed,
+      "Pros": review.pros,
+      "Cons": review.cons,
+      "Recommend": review.recommend ? "Yes" : "No",
+      "Submitted On": review.submittedAt,
+    }));
+  
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Purchased Reviews");
     XLSX.writeFile(workbook, "purchased_reviews.xlsx");
   };
+  
 
   return (
     <>
