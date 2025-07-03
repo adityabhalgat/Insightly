@@ -78,3 +78,14 @@ cd ../frontend
 npm install
 
 ```
+
+## 👨‍💻 Author
+
+**Aditya Bhalgat**
+
+- 📫 [LinkedIn](https://linkedin.com/in/adityabhalgat)
+- 💻 [GitHub](https://github.com/adityabhalgat)
+- 🧠 [LeetCode](https://leetcode.com/aditya_bhalgat)
+- 🏅 [Codeforces](https://codeforces.com/profile/aditya_bhalgat)
+- 📧 Email: adityabhalgat@gmail.com
+
