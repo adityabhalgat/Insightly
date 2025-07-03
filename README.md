@@ -2,7 +2,6 @@
 
 **Insightly** is a smart, AI-powered review platform designed to bring authenticity back to product reviews. It enables companies to gather genuine user feedback while incentivizing verified customers — creating a win-win for businesses and consumers.
 
-![License](https://img.shields.io/badge/license-MIT-green)
 ![Stack](https://img.shields.io/badge/stack-MERN%2BPython-blue)
 ![Payments](https://img.shields.io/badge/Payments-Razorpay-informational)
 
