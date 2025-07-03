@@ -67,19 +67,15 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/insightly.git
+git clone https://github.com/yourusername/Insightly.git
 cd insightly
 
 # Install backend
-cd server
+cd backend
 npm install
 
 # Install frontend
-cd ../client
+cd ../frontend
 npm install
-
-# Python ML model
-cd ../ml-model
-pip install -r requirements.txt
 
 ```
