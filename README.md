@@ -82,5 +82,5 @@ npm install
 - 💻 [GitHub](https://github.com/adityabhalgat)
 - 🧠 [LeetCode](https://leetcode.com/u/adityabhalgat81)
 - 🏅 [Codeforces](https://codeforces.com/profile/adityabhalgat81)
-- 📧 Email: adityabhalgat@gmail.com
+- 📧 Email: adityabhalgat81@gmail.com
 
