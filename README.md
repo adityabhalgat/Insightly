@@ -25,11 +25,6 @@
 |----------|---------|----------|-------|------|----------|
 | React    | Node.js + Express | MongoDB | Python (Scikit-learn/NLP) | JWT | Razorpay |
 
----
-
-## 🖼️ Screenshots
-
-> Add your screenshots here (Home page, Review submission, Company dashboard, ML insights, Payment success)
 
 ---
 
