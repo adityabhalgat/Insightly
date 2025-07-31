@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5001/api/company"; // Update with your backend URL
+const API_BASE_URL = "http://localhost:5001/api/company";
 
 const CompanySignUp = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -36,7 +36,7 @@ const CompanySignUp = () => {
 
         console.log("Company signed up successfully!", response.data);
         alert("Sign-up successful! Please log in.");
-        setIsSignUp(false); // Switch to login mode
+        setIsSignUp(false);
         setData({ username: "", email: "", password: "", role: "company" }); // Reset form
       } else {
         // Login API request
@@ -124,8 +124,8 @@ const CompanySignUp = () => {
             className="text-sm text-blue-600 hover:underline text-center mt-2"
             onClick={() => {
               setIsSignUp(!isSignUp);
-              setError(null); // Clear error when switching modes
-              setData({ username: "", email: "", password: "", role: "company" }); // Reset form
+              setError(null); 
+              setData({ username: "", email: "", password: "", role: "company" }); 
             }}
           >
             {isSignUp

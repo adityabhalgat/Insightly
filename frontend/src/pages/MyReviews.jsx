@@ -66,23 +66,23 @@ export default function MyReviews() {
       ) : reviews.length > 0 ? (
         reviews.map((review) => (
           <Review
-            key={review._id}
-            review={{
-              _id: review._id,
-              title: review.productId.name,
-              category: review.productId.description,
-              brand: "Unknown",
-              rating: review.rating,
-              status: review.status,
-              description: review.review,
-              timeUsed: review.usageDuration,
-              pros: review.pros,
-              cons: review.cons,
-              recommend: review.recommend,
-              suggestions: review.suggestions,
-              submittedAt: review.createdAt,
-            }}
-          />
+          key={review._id}
+          review={{
+            _id: review._id,
+            title: review.productId?.name || "Unknown Product",
+            category: review.productId?.description || "No Description",
+            brand: "Unknown",
+            rating: review.rating,
+            status: review.status,
+            description: review.review,
+            timeUsed: review.usageDuration,
+            pros: review.pros,
+            cons: review.cons,
+            recommend: review.recommend,
+            suggestions: review.suggestions,
+            submittedAt: review.createdAt,
+          }}
+        />
         ))
       ) : (
         <p>No reviews found.</p>

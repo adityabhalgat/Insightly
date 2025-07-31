@@ -4,18 +4,17 @@ const Review = require('../../models/Review');
 
 const verifyReviewPurchase = async (req, res) => {
   try {
-    const { purchaseId, verificationStatus } = req.body; // 'verified' or 'rejected'
+    const { purchaseId, verificationStatus } = req.body; 
     const purchase = await ReviewPurchase.findById(purchaseId);
     if (!purchase) return res.status(404).json({ error: 'Purchase not found' });
     purchase.companyVerificationStatus = verificationStatus;
     await purchase.save();
 
     if (verificationStatus === 'verified') {
-      // Trigger payment: get the reviewer from the review record
       const review = await Review.findById(purchase.reviewId);
       if (!review) return res.status(404).json({ error: 'Review not found' });
       const payment = await Payment.create({
-        payerId: req.user.id, // company id
+        payerId: req.user.id, 
         receiverId: review.userId,
         amount: purchase.purchasePrice,
         transactionType: 'review_purchase',

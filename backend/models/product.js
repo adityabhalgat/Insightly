@@ -8,6 +8,9 @@ const ProductSchema = new mongoose.Schema(
     avgRating: { type: Number, default: 0 },
     reviewCount: { type: Number, default: 0 },
     company : {type : mongoose.Schema.Types.ObjectId, ref : 'Company' , required: true},
+    AmazonLink: { type: String },
+    FlipkartLink: { type: String },
+    othersLink: { type: String },
   },
   { timestamps: true }
 );

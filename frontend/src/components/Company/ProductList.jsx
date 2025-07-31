@@ -11,7 +11,7 @@ export default function ProductList() {
     const fetchProducts = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("🔍 Retrieved Token:", token);
+        console.log("Retrieved Token:", token);
 
         if (!token) {
           throw new Error("No authentication token found. Please log in.");

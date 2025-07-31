@@ -8,7 +8,9 @@ export default function AddProductPage() {
     const [formData, setFormData] = useState({
         name: "",
         category: "",
-        description: ""
+        description: "",
+        AmazonLink: "",
+        FlipkartLink: ""
     });
 
     const [message, setMessage] = useState({ text: "", type: "" }); 
@@ -38,6 +40,9 @@ export default function AddProductPage() {
                     name: formData.name,
                     category: formData.category,
                     description: formData.description,
+                    AmazonLink: formData.AmazonLink,
+                    FlipkartLink: formData.FlipkartLink
+
                 },
                 {
                     headers: { Authorization: `Bearer ${token}` }, 
@@ -55,8 +60,11 @@ export default function AddProductPage() {
     };
     
     return (
-        <>
+        <div className="min-h-screen bg-gradient-to-b from-indigo-100 via-blue-100 to-indigo-200">
+            <div className="bg-white shadow-md">
             <Navbar />
+            </div>
+            
             <div className="mx-auto p-5">
                 <BackButton />  
             </div>
@@ -102,6 +110,32 @@ export default function AddProductPage() {
                             className="w-full p-3 border border-gray-300 rounded text-lg h-60"
                         />
                     </div>
+                    <div className="mb-6">
+                        <label className="block text-gray-700 text-lg">Amazon Link : </label>
+                        <textarea
+                         name = "AmazonLink"
+                         type="text"
+                         placeholder="Enter the Amazon link"
+                         value={formData.AmazonLink}
+                         onChange={handleChange}
+                         required
+                         className="w-full p-3 border border-gray-300 rounded text-lg"
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label className="block text-gray-700 text-lg">Flipkart Link : </label>
+                        <textarea
+                         name = "FlipkartLink"
+                         type="text"
+                         placeholder="Enter the Flipkart link"
+                         value={formData.FlipkartLink}
+                         onChange={handleChange}
+                         required
+                         className="w-full p-3 border border-gray-300 rounded text-lg"
+                        />
+                    </div>
+
                     <button 
                         type="submit" 
                         className="bg-blue-500 text-white px-6 py-3 rounded text-lg hover:bg-blue-600"
@@ -110,6 +144,6 @@ export default function AddProductPage() {
                     </button>
                 </form>
             </div>
-        </>
+        </div>
     );
 }

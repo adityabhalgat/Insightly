@@ -4,9 +4,8 @@ const mongoose = require("mongoose");
 
 const getUserReviews = async (req, res) => {
   try {
-    const { id } = req.params; // Get user ID from route parameter
+    const { id } = req.params; 
 
-    // Validate if the provided ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
@@ -14,7 +13,6 @@ const getUserReviews = async (req, res) => {
       });
     }
 
-    // Find user first to verify they exist
     const user = await User.findById(id)
       .populate({
         path: 'reviews',

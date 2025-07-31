@@ -5,7 +5,7 @@ const Company = require('../../models/company');
 const secret = process.env.JWT_SECRET;
 
 if (!secret) {
-    console.error("❌ ERROR: JWT_SECRET is not set in .env file!");
+    console.error("ERROR: JWT_SECRET is not set in .env file!");
 }
 
 /**
@@ -31,7 +31,7 @@ const login = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        console.log("✅ Login Successful! Token:", token);
+        console.log("Login Successful! Token:", token);
 
         // Send response
         res.json({
@@ -44,7 +44,7 @@ const login = async (req, res) => {
             token
         });
     } catch (error) {
-        console.error("❌ Login Error:", error.message);
+        console.error(" Login Error:", error.message);
         res.status(500).json({ error: error.message });
     }
 };

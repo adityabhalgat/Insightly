@@ -1,7 +1,7 @@
 import { ReactTyped } from "react-typed";
 import LandingNavbar from "../components/LandingNavbar";
 import { FaCheckCircle, FaUsers, FaDollarSign, FaStar } from "react-icons/fa";
-import { motion } from "framer-motion"; // For animations
+import { motion } from "framer-motion";
 import testimonialImage1 from "../../public/pic2.jpg"; 
 import testimonialImage2 from "../../public/pic1.jpg";
 
@@ -128,12 +128,12 @@ function LandingPage() {
               {
                 text: "This platform helped me earn extra cash just by sharing my opinions!",
                 name: "Alex R.",
-                image: testimonialImage1,
+                image: "/pic2.jpg", // ✅ relative to public folder
               },
               {
                 text: "A trustworthy and reliable platform for genuine feedback.",
                 name: "Priya M.",
-                image: testimonialImage2,
+                image: "/pic1.jpg", // ✅ relative to public folder
               },
             ].map((item, index) => (
               <motion.div
@@ -153,6 +153,7 @@ function LandingPage() {
                 <h4 className="text-xl font-semibold">- {item.name}</h4>
               </motion.div>
             ))}
+
           </div>
         </div>
       </section>
@@ -168,7 +169,7 @@ function LandingPage() {
             href="/usersignup"
             className="bg-white text-purple-600 px-10 py-4 rounded-lg text-lg font-semibold shadow-md hover:bg-gray-100 transition-colors"
           >
-            Get Startedß
+            Get Started
           </a>
         </div>
       </section>

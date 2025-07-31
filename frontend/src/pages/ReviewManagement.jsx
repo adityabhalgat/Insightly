@@ -122,7 +122,7 @@ export default function ReviewManagement() {
       });
   
       const options = {
-        key: process.env.RAZORPAY_KEY_ID,
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Changed from process.env to import.meta.env
         amount: totalAmount,
         currency: "INR",
         name: "Product Review Purchase",
