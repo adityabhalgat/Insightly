@@ -3,7 +3,6 @@ import LandingNavbar from "../components/LandingNavbar";
 import { FaCheckCircle, FaUsers, FaDollarSign, FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-
 function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans">
