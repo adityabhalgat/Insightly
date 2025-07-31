@@ -2,8 +2,7 @@ import { ReactTyped } from "react-typed";
 import LandingNavbar from "../components/LandingNavbar";
 import { FaCheckCircle, FaUsers, FaDollarSign, FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
-import testimonialImage1 from "../../public/pic2.jpg"; 
-import testimonialImage2 from "../../public/pic1.jpg";
+
 
 function LandingPage() {
   return (
