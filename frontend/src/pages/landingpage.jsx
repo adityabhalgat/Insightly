@@ -1,7 +1,11 @@
 import { ReactTyped } from "react-typed";
 import LandingNavbar from "../components/LandingNavbar";
+import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { motion } from 'framer-motion';
+const MotionLink = motion(Link);
+
 import { FaCheckCircle, FaUsers, FaDollarSign, FaStar } from "react-icons/fa";
-import { motion } from "framer-motion";
 
 function LandingPage() {
   return (
@@ -45,22 +49,23 @@ function LandingPage() {
             Earn $1-$1.5 for every verified review while helping brands improve their products.
           </p>
           <div className="flex flex-col md:flex-row gap-6 justify-center">
-            <motion.a
-              href="/companysignup"
-              className="bg-white text-purple-600 px-8 py-3 rounded-lg text-lg font-semibold shadow-lg hover:bg-gray-100 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Join as a Company
-            </motion.a>
-            <motion.a
-              href="/usersignup"
-              className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Sign Up as a User
-            </motion.a>
+              <MotionLink
+                  to="/companysignup"
+                  className="bg-white text-purple-600 px-8 py-3 rounded-lg text-lg font-semibold shadow-lg hover:bg-gray-100 transition-colors inline-block"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Join as a Company
+                </MotionLink>
+
+                <MotionLink
+                  to="/usersignup"
+                  className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors inline-block"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Sign Up as a User
+                </MotionLink>
           </div>
         </motion.div>
 
@@ -157,18 +162,19 @@ function LandingPage() {
       </section>
 
       {/* Call-to-Action Section */}
+
       <section className="py-20 bg-gradient-to-r from-purple-600 to-blue-500 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-6">Start Earning Today!</h2>
           <p className="text-xl mb-8">
             Sign up now and turn your reviews into real rewards.
           </p>
-          <a
-            href="/usersignup"
-            className="bg-white text-purple-600 px-10 py-4 rounded-lg text-lg font-semibold shadow-md hover:bg-gray-100 transition-colors"
+          <Link
+            to="/usersignup"
+            className="inline-block bg-white text-purple-600 px-8 py-3 rounded-lg text-lg font-semibold shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-105"
           >
             Get Started
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -176,9 +182,33 @@ function LandingPage() {
       <footer className="py-10 bg-gray-900 text-white text-center">
         <p className="text-lg">© 2025 Review Rewards. All rights reserved.</p>
         <div className="flex justify-center space-x-8 mt-6 text-lg">
-          <a href="/about" className="hover:underline">About</a>
-          <a href="/contact" className="hover:underline">Contact</a>
-          <a href="/privacy" className="hover:underline">Privacy Policy</a>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? 'font-bold underline' : 'hover:underline'
+            }
+          >
+            About
+          </NavLink>
+          
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive ? 'font-bold underline' : 'hover:underline'
+            }
+          >
+            Contact
+          </NavLink>
+          
+          <NavLink
+            to="/Privacy"
+            className={({ isActive }) =>
+              isActive ? 'font-bold underline' : 'hover:underline'
+            }
+          >
+            Privacy
+          </NavLink>
         </div>
       </footer>
     </div>
