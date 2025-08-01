@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import Navbar from "../components/Company/Navbar";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
 
 const initialReviews = [
   {
@@ -116,7 +117,7 @@ export default function ReviewManagement() {
     const totalAmount = unpurchasedCount * costPerReview * 100; // Convert to paise
   
     try {
-      const { data } = await axios.post("http://localhost:5001/api/payment/create-order", {
+      const { data } = await axios.post(`${API_BASE_URL}/api/payment/create-order`, {
         amount: totalAmount,
         currency: "INR",
       });
@@ -130,7 +131,7 @@ export default function ReviewManagement() {
         order_id: data.id,
         handler: async function (response) {
           if (response.razorpay_payment_id && response.razorpay_signature) {
-            const verifyRes = await axios.post("http://localhost:5001/api/payment/verify-payment", {
+            const verifyRes = await axios.post(`${API_BASE_URL}/api/payment/verify-payment`, {
               razorpay_order_id: data.id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,

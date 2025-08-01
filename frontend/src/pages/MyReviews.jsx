@@ -5,6 +5,8 @@ import BackButton from "../components/User/BackButton";
 import Navbar from "../components/User/Navbar";
 import Review from "../components/User/Review";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
+
 export default function MyReviews() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +33,7 @@ export default function MyReviews() {
         }
 
         const response = await axios.get(
-          `http://localhost:5001/api/reviews/user/${userId}`,
+          `${API_BASE_URL}/api/reviews/user/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

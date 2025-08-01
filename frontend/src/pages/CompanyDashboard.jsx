@@ -3,6 +3,8 @@ import axios from "axios";
 import Navbar from "../components/Company/Navbar";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 
+const API_BASE_URL =import.meta.env.VITE_API_URL || `http://localhost:5001`;
+
 export default function CompanyDashboard() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ export default function CompanyDashboard() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/products/getall");
+        const response = await axios.get(`${API_BASE_URL}/api/products/getall`);
         setProducts(response.data);
       } catch (err) {
         setError("Failed to fetch products");

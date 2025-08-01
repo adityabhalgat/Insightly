@@ -2,8 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5001/api/auth"; // Update with your backend URL
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
 const UserSignUp = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [data, setData] = useState({ username: "", email: "", password: "", role: "user" });
@@ -23,7 +22,7 @@ const UserSignUp = () => {
         }
 
         // Sign-up API request
-        const response = await axios.post(`${API_BASE_URL}/register`, {
+        const response = await axios.post(`${API_BASE_URL}/api/auth/register`, {
           username: data.username,
           email: data.email,
           password: data.password,
@@ -43,7 +42,7 @@ const UserSignUp = () => {
         }
 
         // Login API request for normal users
-        const response = await axios.post(`${API_BASE_URL}/login`, {
+        const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
           email: data.email,
           password: data.password,
         });

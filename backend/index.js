@@ -1,6 +1,8 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors'); // Import CORS
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger'); // <-- just import, don't redeclare
 
 const app = express();
 
@@ -43,6 +45,38 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/company', companyRoutes);
 app.use('/api/products', productRoutes);
 
+// Swagger UI route
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Start server
 const PORT = process.env.PORT || 5001;
+const swaggerJSDoc = require('swagger-jsdoc');
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'TnP_PBL API',
+      version: '1.0.0',
+      description: 'API documentation for TnP_PBL backend',
+    },
+    servers: [
+      {
+        url: 'http://localhost:5001/api',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [{ bearerAuth: [] }],
+  },
+  apis: ['./routes/*.js'], // Scan all route files for Swagger comments
+};
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

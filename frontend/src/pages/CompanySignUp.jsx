@@ -2,7 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5001/api/company";
+
+const API_BASE_URL =import.meta.env.VITE_API_URL || `http://localhost:5001`;
 
 const CompanySignUp = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -23,11 +24,10 @@ const CompanySignUp = () => {
         }
 
         // Sign-up API request
-        const response = await axios.post(`${API_BASE_URL}/register`, {
+        const response = await axios.post(`${API_BASE_URL}/api/company/register`, {
           username: data.username,
           email: data.email,
           password: data.password,
-          role: data.role, // Role is required only during signup
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -40,7 +40,7 @@ const CompanySignUp = () => {
         setData({ username: "", email: "", password: "", role: "company" }); // Reset form
       } else {
         // Login API request
-        const response = await axios.post(`${API_BASE_URL}/login`, {
+        const response = await axios.post(`${API_BASE_URL}/api/company/login`, {
           email: data.email,
           password: data.password,
         });

@@ -1,6 +1,94 @@
 const express = require("express");
+
 const Razorpay = require("razorpay");
 const dotenv = require("dotenv");
+
+/**
+ * @swagger
+ * tags:
+ *   name: Payments
+ *   description: Payment processing
+ */
+
+/**
+ * @swagger
+ * /payment/create-order:
+ *   post:
+ *     summary: Create a payment order
+ *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - amount
+ *               - currency
+ *             properties:
+ *               amount:
+ *                 type: number
+ *               currency:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Payment order created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 orderId:
+ *                   type: string
+ *                 amount:
+ *                   type: number
+ *                 currency:
+ *                   type: string
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ *
+ * /payment/verify:
+ *   post:
+ *     summary: Verify a payment
+ *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - paymentId
+ *               - orderId
+ *               - signature
+ *             properties:
+ *               paymentId:
+ *                 type: string
+ *               orderId:
+ *                 type: string
+ *               signature:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Payment verified
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *       400:
+ *         description: Invalid input or verification failed
+ *       401:
+ *         description: Unauthorized
+ */
 
 dotenv.config();
 
@@ -13,11 +101,11 @@ const razorpay = new Razorpay({
 
 router.post("/create-order", async (req, res) => {
   try {
-    const { amount } = req.body;
+    const { amount, currency } = req.body;
 
     const options = {
       amount: amount * 100, // Razorpay requires amount in paise
-      currency: "INR",
+      currency: currency,
       receipt: `order_${Date.now()}`,
     };
 

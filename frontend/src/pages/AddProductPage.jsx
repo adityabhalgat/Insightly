@@ -4,6 +4,8 @@ import Navbar from "../components/Company/Navbar";
 import BackButton from "../components/User/BackButton";
 import { useNavigate } from "react-router-dom";
 
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
 export default function AddProductPage() {
     const [formData, setFormData] = useState({
         name: "",
@@ -35,7 +37,7 @@ export default function AddProductPage() {
             }
     
             const response = await axios.post(
-                "http://localhost:5001/api/products/create",
+                `${API_BASE_URL}/api/products/create`,
                 {
                     name: formData.name,
                     category: formData.category,

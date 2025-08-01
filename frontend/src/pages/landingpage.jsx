@@ -126,12 +126,12 @@ function LandingPage() {
               {
                 text: "This platform helped me earn extra cash just by sharing my opinions!",
                 name: "Alex R.",
-                image: "/pic2.jpg", // ✅ relative to public folder
+                image: "/Pic2.jpg", 
               },
               {
                 text: "A trustworthy and reliable platform for genuine feedback.",
                 name: "Priya M.",
-                image: "/pic1.jpg", // ✅ relative to public folder
+                image: "/Pic1.jpg", 
               },
             ].map((item, index) => (
               <motion.div

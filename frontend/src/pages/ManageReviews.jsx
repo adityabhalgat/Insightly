@@ -4,6 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
+
 export default function ManageReviews() {
   const [reviews, setReviews] = useState([]);
 
@@ -13,7 +15,7 @@ export default function ManageReviews() {
 
   const fetchMarkedReviews = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/reviews/marked-for-review');
+      const response = await axios.get(`${API_BASE_URL}/api/reviews/marked-for-review`);
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching marked reviews:', error);
@@ -25,7 +27,7 @@ export default function ManageReviews() {
     try {
       const token = localStorage.getItem('token'); // Get token from localStorage
       await axios.put(
-        `http://localhost:5001/api/reviews/${reviewId}`,
+        `${API_BASE_URL}/api/reviews/${reviewId}`,
         {
           status: action === "accept" ? "accepted" : "rejected"
         },

@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "../components/User/Navbar";
 import BackButton from "../components/User/BackButton";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
 export default function WriteReview() {
   const { id } = useParams(); // Get product ID from URL
   const navigate = useNavigate(); // Hook for redirection
@@ -24,7 +25,7 @@ export default function WriteReview() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/products/get/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/products/get/${id}`);
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -63,7 +64,7 @@ export default function WriteReview() {
     };
 
     try {
-      const response = await axios.post("http://localhost:5001/api/reviews", reviewData, {
+      const response = await axios.post(`${API_BASE_URL}/api/reviews`, reviewData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

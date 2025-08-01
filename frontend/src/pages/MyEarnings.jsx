@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "../components/User/Navbar";
 import BackButton from "../components/User/BackButton";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
 export default function MyEarnings() {
   const [reviewsSubmitted, setReviewsSubmitted] = useState(0);
   const [earningsPerReview, setEarningsPerReview] = useState(0);
@@ -26,7 +27,7 @@ export default function MyEarnings() {
           return;
         }
 
-        const response = await axios.get("http://localhost:5001/api/user/profile", {
+        const response = await axios.get(`${API_BASE_URL}/api/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
