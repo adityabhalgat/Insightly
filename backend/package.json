@@ -3,16 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js --watch .",
-    "build": "echo \"No build step defined\" && exit 0",
-    "prestart": "npm run lint",
-    "lint": "eslint . --ext .js",
-    "swagger:generate": "node scripts/generateSwagger.js",
-    "docs": "npm run swagger:generate",
-    "clean": "rm -rf .cache && echo \"Cleaned caches\"",
-    "run": "npm run start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "lint": "eslint . --ext .js",
+  "prestart": "npm run lint",
+  "dev": "node index.js"
   },
   "author": "",
   "license": "ISC",
