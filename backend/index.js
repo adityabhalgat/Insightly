@@ -51,7 +51,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Start server
 const PORT = process.env.PORT || 5001;
 const swaggerJSDoc = require('swagger-jsdoc');
-
+const frontendURL = process.env.FRONTEND_URL;
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -60,9 +60,10 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for TnP_PBL backend',
     },
+
     servers: [
       {
-        url: 'http://localhost:5001/api',
+        url: `${frontendURL}}/api`,
       },
     ],
     components: {
