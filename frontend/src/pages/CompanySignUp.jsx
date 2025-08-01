@@ -50,6 +50,7 @@ const CompanySignUp = () => {
         // Save authentication token (if applicable)
         localStorage.setItem("companyToken", response.data.token);
         localStorage.setItem("token", response.data.token);
+        console.log("Stored token:", localStorage.getItem("companyToken"));
 
 
         navigate("/companydashboard"); // Redirect to company dashboard
