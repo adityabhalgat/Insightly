@@ -6,7 +6,7 @@ export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const API_BASE_URL = import.meta.env.VITE_API_URL 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -17,7 +17,7 @@ export default function ProductList() {
           throw new Error("No authentication token found. Please log in.");
         }
 
-        const response = await axios.get("http://localhost:5001/api/products/getbycompany", {
+        const response = await axios.get(`${API_BASE_URL}/api/products/getbycompany`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -53,7 +53,7 @@ export default function ProductList() {
         return;
       }
 
-      await axios.delete(`http://localhost:5001/api/products/delete/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/products/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
