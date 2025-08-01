@@ -51,7 +51,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Start server
 const PORT = process.env.PORT || 5001;
 const swaggerJSDoc = require('swagger-jsdoc');
-const frontendURL = process.env.FRONTEND_URL;
+const backendUrl = process.env.BACKEND_URL;
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -63,7 +63,7 @@ const options = {
 
     servers: [
       {
-        url: `${frontendURL}}/api`,
+        url: `${backendUrl}}/api`,
       },
     ],
     components: {
