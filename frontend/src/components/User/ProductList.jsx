@@ -34,7 +34,7 @@ export default function ProductList() {
     const shuffleImages = [...curatedProductImages].sort(() => Math.random() - 0.5);
     setShuffledImages(shuffleImages);
   }, []);
-
+  const backendapi = import.meta.env.VITE_API_URL || "http://localhost:5001";
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -42,7 +42,7 @@ export default function ProductList() {
         if (!token) {
           throw new Error("No authentication token found. Please log in.");
         }
-        const response = await axios.get("http://localhost:5001/api/products/getall", {
+        const response = await axios.get(`${backendapi}/api/products/getall`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProducts(response.data);
