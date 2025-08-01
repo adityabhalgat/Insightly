@@ -49,6 +49,8 @@ const CompanySignUp = () => {
 
         // Save authentication token (if applicable)
         localStorage.setItem("companyToken", response.data.token);
+        localStorage.setItem("token", response.data.token);
+
 
         navigate("/companydashboard"); // Redirect to company dashboard
       }
