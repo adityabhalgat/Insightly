@@ -48,6 +48,7 @@ const UserSignUp = () => {
         const userRole = response.data.role; // Assuming the response contains the user's role
         if (userRole === "admin") {
           navigate("/admin"); // Redirect to admin dashboard
+          return;
         }
         else{
             navigate("/user"); // Redirect to user dashboard
