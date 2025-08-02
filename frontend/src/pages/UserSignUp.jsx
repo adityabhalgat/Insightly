@@ -34,13 +34,6 @@ const UserSignUp = () => {
         setIsSignUp(false); // Switch to login mode
         setData({ username: "", email: "", password: "", role: "user" }); // Reset form
       } else {
-        // Temporary Admin Check
-        if (data.email === "admin@gmail.com" && data.password === "admin") {
-          console.log("Admin login successful!");
-          navigate("/admin"); // Redirect to admin dashboard
-          return;
-        }
-
         // Login API request for normal users
         const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
           email: data.email,
@@ -51,8 +44,14 @@ const UserSignUp = () => {
         
         // Save authentication token (if applicable)
         localStorage.setItem("token", response.data.token);
-
-        navigate("/user"); // Redirect to user dashboard
+        // Check if the user is an admin
+        const userRole = response.data.role; // Assuming the response contains the user's role
+        if (userRole === "admin") {
+          navigate("/admin"); // Redirect to admin dashboard
+        }
+        else{
+            navigate("/user"); // Redirect to user dashboard
+        }
       }
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
