@@ -3,16 +3,25 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
+
 const UserSignUp = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-  const [data, setData] = useState({ username: "", email: "", password: "", role: "user" });
-  const [error, setError] = useState(null);
-  
+  const [data, setData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    role: "user",
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return; // prevent duplicate submits
     setError(null);
+    setLoading(true);
 
     try {
       if (isSignUp) {
@@ -21,42 +30,63 @@ const UserSignUp = () => {
           return;
         }
 
-        // Sign-up API request
-        const response = await axios.post(`${API_BASE_URL}/api/auth/register`, {
-          username: data.username,
-          email: data.email,
-          password: data.password,
-          role: data.role, // Role is required only during signup
-        });
+        const response = await axios.post(
+          `${API_BASE_URL}/api/auth/register`,
+          {
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            role: data.role,
+          }
+        );
 
         console.log("User signed up successfully!", response.data);
         alert("Sign-up successful! Please log in.");
-        setIsSignUp(false); // Switch to login mode
-        setData({ username: "", email: "", password: "", role: "user" }); // Reset form
-      } else {
-        // Login API request for normal users
-        const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
-          email: data.email,
-          password: data.password,
+        setIsSignUp(false);
+        setData({
+          username: "",
+          email: "",
+          password: "",
+          role: "user",
         });
+        // OPTIONAL: auto-navigate to login route if separated
+        // navigate("/login");
+      } else {
+        const response = await axios.post(
+          `${API_BASE_URL}/api/auth/login`,
+          {
+            email: data.email,
+            password: data.password,
+          }
+        );
 
         console.log("Login successful!", response.data);
-        
-        // Save authentication token (if applicable)
-        localStorage.setItem("token", response.data.token);
-        // Check if the user is an admin
-        const userRole = response.data.role; // Assuming the response contains the user's role
-        if (userRole === "admin") {
-          navigate("/admin"); // Redirect to admin dashboard
-          return;
+
+        // Save token if present
+        if (response.data?.token) {
+          localStorage.setItem("token", response.data.token);
+        } else {
+          console.warn("No token in login response.");
         }
-        else{
-            navigate("/user"); // Redirect to user dashboard
+
+        // Use fallback to "user" if role missing
+        const userRole = response.data?.role || "user";
+
+        if (userRole === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/user");
         }
       }
-    } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
-      setError(error.response?.data?.message || "Something went wrong!");
+    } catch (err) {
+      console.error("Error:", err.response?.data || err.message);
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Something went wrong during authentication."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,7 +97,9 @@ const UserSignUp = () => {
           {isSignUp ? "Create an Account" : "Welcome Back"}
         </h2>
 
-        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm text-center mb-4">{error}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {isSignUp && (
@@ -115,19 +147,31 @@ const UserSignUp = () => {
           </div>
 
           <button
-            className="w-full mt-4 bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-blue-700 transition-all"
+            className="w-full mt-4 bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-md hover:bg-blue-700 transition-all disabled:opacity-50"
             type="submit"
+            disabled={loading}
           >
-            {isSignUp ? "Sign Up" : "Login"}
+            {loading
+              ? isSignUp
+                ? "Signing Up..."
+                : "Logging In..."
+              : isSignUp
+              ? "Sign Up"
+              : "Login"}
           </button>
 
           <button
             type="button"
             className="text-sm text-blue-600 hover:underline text-center mt-2"
             onClick={() => {
-              setIsSignUp(!isSignUp);
-              setError(null); // Clear error when switching modes
-              setData({ username: "", email: "", password: "", role: "user" }); // Reset form
+              setIsSignUp((prev) => !prev);
+              setError(null);
+              setData({
+                username: "",
+                email: "",
+                password: "",
+                role: "user",
+              });
             }}
           >
             {isSignUp
