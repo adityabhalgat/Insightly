@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || `http://localhost:5001`;
 
@@ -12,14 +13,14 @@ const UserSignUp = () => {
     password: "",
     role: "user",
   });
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loading) return; // prevent duplicate submits
+    if (loading) return;
     setError(null);
     setLoading(true);
 
@@ -27,6 +28,7 @@ const UserSignUp = () => {
       if (isSignUp) {
         if (!data.username.trim()) {
           setError("Username cannot be empty.");
+          setLoading(false);
           return;
         }
 
@@ -40,7 +42,6 @@ const UserSignUp = () => {
           }
         );
 
-        console.log("User signed up successfully!", response.data);
         alert("Sign-up successful! Please log in.");
         setIsSignUp(false);
         setData({
@@ -49,8 +50,6 @@ const UserSignUp = () => {
           password: "",
           role: "user",
         });
-        // OPTIONAL: auto-navigate to login route if separated
-        // navigate("/login");
       } else {
         const response = await axios.post(
           `${API_BASE_URL}/api/auth/login`,
@@ -60,26 +59,24 @@ const UserSignUp = () => {
           }
         );
 
-        console.log("Login successful!", response.data);
-
-        // Save token if present
         if (response.data?.token) {
           localStorage.setItem("token", response.data.token);
-        } else {
-          console.warn("No token in login response.");
-        }
 
-        // Use fallback to "user" if role missing
-        const userRole = response.data?.role || "user";
+          // Decode JWT to get role
+          // If using named import
+          const decoded = jwtDecode(response.data.token);
+          const userRole = decoded.role || "user";
 
-        if (userRole === "admin") {
-          navigate("/admin");
+          if (userRole === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/user");
+          }
         } else {
-          navigate("/user");
+          setError("No token received.");
         }
       }
     } catch (err) {
-      console.error("Error:", err.response?.data || err.message);
       setError(
         err.response?.data?.message ||
           err.message ||
