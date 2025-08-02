@@ -6,11 +6,11 @@ const options = {
     info: {
       title: 'TnP_PBL API',
       version: '1.0.0',
-      description: 'API documentation for TnP_PBL backend',
+      description: 'API documentation for Insightly backend',
     },
     servers: [
       {
-        url: 'http://localhost:5001/api',
+        url: 'https://insightly1.onrender.com/api',
       },
     ],
     components: {

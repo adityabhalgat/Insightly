@@ -26,6 +26,7 @@ export default function ManageReviews() {
   const handleReviewAction = async (reviewId, action) => {
     try {
       const token = localStorage.getItem('token'); // Get token from localStorage
+      console.log(token);
       await axios.put(
         `${API_BASE_URL}/api/reviews/${reviewId}`,
         {
