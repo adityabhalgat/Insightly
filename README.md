@@ -40,10 +40,8 @@
 
 ## 🧠 AI Model
 
-- **Language Processing:** Tokenization, stop-word removal, TF-IDF
+- **Language Processing:** Tokenization , analysis of tokens
 - **Fake Review Detection:** Trained classifier using labeled review datasets
-- **Sentiment Analysis:** TextBlob/VADER or custom fine-tuned model
-- **Deployment:** Flask or FastAPI (Python backend) integrated with Node.js server
 
 ---
 
